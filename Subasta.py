@@ -3,13 +3,15 @@ from Usuari import Usuari
 
 
 class Subasta:
+    # Constructor
     def __init__(self, nomProducte, usuariPropietari):
         self.nomProducte = nomProducte
         self.usuariPropietari = usuariPropietari
         self.estat = True
         self.licitacions = []
         self.licitacioMajor = Puja(Usuari, 0)
-
+    
+    # Getters & Setters
     def setNomProducte(self, NomProducteNou):
         self.nomProducte = NomProducteNou
 
@@ -27,7 +29,8 @@ class Subasta:
 
     def getLicitacions(self):
         return self.licitacions
-
+    
+    # Metodo Pujar 1.
     def licitar(self, Usuario, credit):
         if self.estat:
             if Usuario.getCredit() > credit:
@@ -45,7 +48,8 @@ class Subasta:
                 return False
         else:
             return False
-
+    
+    # Método Pujar solo con nombre de usuario.
     def licitarUsuari(self, Usuario):
         if self.licitacioMajor == Puja:
             if Usuario.getCredit() > self.licitacioMajor:
@@ -59,7 +63,8 @@ class Subasta:
             self.setLicitacioMajor(puja)
             self.licitacions.append(puja)
             return True
-
+    
+    # Método Ejecutar para cerrar las subastas y resolver los créditos de cada usuario.
     def executar(self):
         if not self.estat:
             return False
@@ -68,6 +73,7 @@ class Subasta:
             self.licitacioMajor.getUsuari().decrementarCredit(self.licitacioMajor.getQuantitatOferida())
             self.usuariPropietari.incrementarCredit(self.licitacioMajor.getQuantitatOferida())
             return True
-
+    
+    # Str de la clase.
     def __str__(self):
         return str(self.nomProducte) + ", licitacio creada per l'usuari: " + str(self.getUsuariPropietari())
